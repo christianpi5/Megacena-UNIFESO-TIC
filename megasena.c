@@ -30,4 +30,16 @@ void menu()
         }
         
     }
+
+    free(array_de_numeros_para_serem_exibidos); //liberar pra nao dar ruim
+}
+
+void solicitacoes(int* quantidade)
+{
+    printf("\n\nSelecione a quantidade de dezenas que voce ira jogar nas apostas\n");
+    scanf("%d", quantidade);
+    if(*quantidade < 6 || *quantidade > 15){
+        printf("\n\tInvalido, try again\n");
+        solicitacoes(quantidade); //recursão para casos triviais 
+    }
 }

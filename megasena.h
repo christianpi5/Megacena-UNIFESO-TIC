@@ -2,6 +2,7 @@
 #ifndef MEGASENA_H 
 #define MEGASENA_H
 
-void menu();
+void menu(); //chama menu bonitinho da megacena
+void solicitacoes(int* quantidade); //pede numero de dezenas >= 6 ou <= 15
 
 #endif
