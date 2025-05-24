@@ -34,12 +34,17 @@ void menu()
     free(array_de_numeros_para_serem_exibidos); //liberar pra nao dar ruim
 }
 
-void solicitacoes(int* quantidade)
+void solicitacoes(int* quantidade, char *frase, int if1, int if2) //modularizar solicitações
 {
-    printf("\n\nSelecione a quantidade de dezenas que voce ira jogar nas apostas\n");
+    printf("\n\n %s \n", frase);
     scanf("%d", quantidade);
-    if(*quantidade < 6 || *quantidade > 15){
-        printf("\n\tInvalido, try again\n");
-        solicitacoes(quantidade); //recursão para casos triviais 
+
+    if(*quantidade < if1 || *quantidade > if2){
+        printf("\tInvalido, try again");
+        solicitacoes(quantidade, frase, if1, if2); //recursão para casos triviais 
+    } 
+    else{
+        printf("\nEscolhido\n");
     }
+
 }
