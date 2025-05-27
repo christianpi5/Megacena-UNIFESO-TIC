@@ -1,6 +1,7 @@
 #include "megasena.h"
 #include <stdlib.h>
 #include <stdio.h>
+#include <time.h>
 
 void menu()
 {
@@ -87,6 +88,7 @@ void pede_valores_das_dezenas(int *dezenas, int *apostas)
 }
 void gerar_dezenas_aleatorias(int quant_dezenas_a_gerar,int* vetor_a_preencher){
 	const int LIMITE_DEZENA = 60;
+	srand ( time(NULL) );
 	
 	for(int i = 0; i < quant_dezenas_a_gerar; i++){
 		vetor_a_preencher[i] = rand() % LIMITE_DEZENA + 1; //Limita os valores aleatórios a 60
