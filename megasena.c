@@ -85,3 +85,21 @@ void pede_valores_das_dezenas(int *dezenas, int *apostas)
    }
 
 }
+void gerar_dezenas_aleatorias(int quant_dezenas_a_gerar,int* vetor_a_preencher){
+	const int LIMITE_DEZENA = 60;
+	
+	for(int i = 0; i < quant_dezenas_a_gerar; i++){
+		vetor_a_preencher[i] = rand() % LIMITE_DEZENA + 1; //Limita os valores aleatórios a 60
+
+		for(int j = 0; j < i; j++){
+			if(vetor_a_preencher[j] == vetor_a_preencher[i]){
+				i--;
+				break;
+			}
+		}
+			printf(("%d\n"),vetor_a_preencher[i]);
+	}
+	for(int i = 0;i < quant_dezenas_a_gerar;i++){
+		printf("\nValor [%d]: %d",i,vetor_a_preencher[i]);	
+	}
+}

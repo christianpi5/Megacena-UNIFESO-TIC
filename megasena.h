@@ -5,5 +5,6 @@
 void menu(); //chama menu bonitinho da megacena
 void solicitacoes(int* quantidade, char *frase, int condicao1, int condicao2); //pede numero de dezenas >= 6 ou <= 15
 void pede_valores_das_dezenas(int* dezenas, int* apostas);
+void gerar_dezenas_aleatorias(int quant_dezenas_a_gerar,int* vetor_a_preencher);
 
 #endif
