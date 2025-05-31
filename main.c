@@ -4,6 +4,7 @@
 int main(){
     int quantidade_de_dezenas_por_aposta; //usar depois pra alguma coisa que ainda não sei
     int quantidade_de_apostas_manuais; // ^^
+    int teimosinhas, surpresinhas;
     
 	int quant_dezenas = 8; // No futuro essa variavel deve ser a mesma que a variavel abaixo
     int ** dezenas_escolhidas; //Matriz pra saber as dezenas escolhidas
