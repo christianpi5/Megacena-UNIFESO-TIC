@@ -1,6 +1,8 @@
 {
     "files.associations": {
         "*.C": "c",
-        "megasena.h": "c"
+        "megasena.h": "c",
+        "time.h": "c",
+        "stdio.h": "c"
     }
 }
