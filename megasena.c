@@ -29,9 +29,6 @@ void solicitacoes(int* quantidade, char *frase,  int condicao1, int condicao2) /
         printf("\tInvalido, try again");
         solicitacoes(quantidade, frase, condicao1, condicao2); //recursão para casos triviais 
     } 
-    else{
-       printf("teste");
-    }
 
 }
 
@@ -45,16 +42,16 @@ void pede_valores_das_dezenas(int *dezenas, int *apostas)
     array_que_aponta_pra_ponteiros_de_inteiros[c] = (int*)malloc(*dezenas * sizeof(int));
 
         for(int j = 0; j < *dezenas; j++){
-            printf("\nDigite o valor da aposta manual numero %d e seu digito numero %d\n", c + 1, j + 1);
+            printf("\nDigite o valor da dezena [%d] da aposta [%d]\n",  j + 1, c + 1);
             scanf("%d", &array_que_aponta_pra_ponteiros_de_inteiros[c][j]);
         }
    }
 
- // FUNCIONA !!!!!!!! - falta retornar esses valores para main though ...
+ // Demonstrando dezenas escolhidas separado por apostas
    for(int x = 0; x < *apostas; x++){
+    printf("\nAposta %d: \n", x+1);
     for(int t = 0; t < *dezenas; t++){
-        printf("\n%d", array_que_aponta_pra_ponteiros_de_inteiros[x][t]);
-
+        printf("\n[%d]", array_que_aponta_pra_ponteiros_de_inteiros[x][t]);
     }
    }
 
@@ -88,20 +85,34 @@ void pede_valores_das_dezenas(int *dezenas, int *apostas)
 }
 void gerar_dezenas_aleatorias(int quant_dezenas_a_gerar,int* vetor_a_preencher){
 	const int LIMITE_DEZENA = 60;
-	srand ( time(NULL) );
 	
 	for(int i = 0; i < quant_dezenas_a_gerar; i++){
 		vetor_a_preencher[i] = rand() % LIMITE_DEZENA + 1; //Limita os valores aleatórios a 60
-
-		for(int j = 0; j < i; j++){
+		for(int j = 0; j < i; j++){ //obriga I a refazer um novo numero aleatoria caso o mesmo seja identico a algum numero anterior desde que J<I
 			if(vetor_a_preencher[j] == vetor_a_preencher[i]){
 				i--;
 				break;
 			}
 		}
-			printf(("%d\n"),vetor_a_preencher[i]);
 	}
 	for(int i = 0;i < quant_dezenas_a_gerar;i++){
 		printf("\nValor [%d]: %d",i,vetor_a_preencher[i]);	
 	}
+}
+
+void gerar_matriz_pai_de_surpresinhas(int dezenas)
+{
+    
+int quantidade_de_surpresinhas;
+    printf("\nDigite quantas surpresinhas vai querer\n");
+    scanf("%d", &quantidade_de_surpresinhas);
+
+    //Criação da MATRIZ de surpresinhas
+    int** matriz_pai_de_surpresinhas = (int**)malloc(quantidade_de_surpresinhas * sizeof(int*));
+
+    for (int j = 0; j < quantidade_de_surpresinhas; j++) {
+    matriz_pai_de_surpresinhas[j] = (int*)malloc(dezenas * sizeof(int));
+    printf("\nGERANDO SURPRESINHA %d\n", j + 1);
+    gerar_dezenas_aleatorias(dezenas, matriz_pai_de_surpresinhas[j]);
+}
 }
