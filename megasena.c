@@ -2,6 +2,7 @@
 #include <stdlib.h>
 #include <stdio.h>
 #include <time.h>
+#include <stdbool.h>
 
 void menu()
 {
@@ -39,54 +40,57 @@ void solicitacoes(int* quantidade, char *frase,  int condicao1, int condicao2) /
 
 //implementando a logica do professor em sala. criando array de ponteiros para array com inteiros.
 //Pegando cada digito e inserindo dentro do array de inteiros, que está dentro do array de ponteiros
-void pede_valores_das_dezenas(int *dezenas, int *apostas)
-{
-   int** array_que_aponta_pra_ponteiros_de_inteiros = (int**)malloc(*apostas * sizeof(int*));//define n numero de apostas manuais  que o usuario inseriu
-   
-   for(int c = 0; c < *apostas; c++){
-    array_que_aponta_pra_ponteiros_de_inteiros[c] = (int*)malloc(*dezenas * sizeof(int));
-
-        for(int j = 0; j < *dezenas; j++){
-            printf("\nDigite o valor da dezena [%d] da aposta [%d]\n",  j + 1, c + 1);
-            scanf("%d", &array_que_aponta_pra_ponteiros_de_inteiros[c][j]);
-        }
-   }
-
- // Demonstrando dezenas escolhidas separado por apostas
-   for(int x = 0; x < *apostas; x++){
-    printf("\nAposta %d: \n", x+1);
-    for(int t = 0; t < *dezenas; t++){
-        printf("\n[%d]", array_que_aponta_pra_ponteiros_de_inteiros[x][t]);
-    }
-   }
-
-   //Validação
-   int conta_quantas_vezes_o_numero_aparece_no_array = 0;
-   for(int a = 0; a < *apostas; a++){
-    for(int b = 0; b < *dezenas; b++){
-        //Aqui eu peço pra z ser 1 a mais que b, pois não faz sentido comparar z com numeros passados
-        //pois os numeros passados já fizeram suas contagens com o restante dos numeros.
-        //seria desnecessário comparar o index atual com o index anterior, ja que anterior ja foi comparado
-        //com o atual. e também não faz sentido comparar o index atual com index atual, pois OBVIAMMENTE são valores iguais.
-        for(int z = b + 1; z < *dezenas; z++){
-            //quando b for diferente de z, ou seja, quando os indices forem diferentes.
-            //pois não faz diferente comparar numeros quando sao de msm indice, pois OBVIAMMENTE serão iguais
-            if(b != z && array_que_aponta_pra_ponteiros_de_inteiros[a][b] == array_que_aponta_pra_ponteiros_de_inteiros[a][z]){
-                conta_quantas_vezes_o_numero_aparece_no_array++; //ele possui 1 ou mais incidencias no array, o que não é permitido
-                if(conta_quantas_vezes_o_numero_aparece_no_array >= 1){
-                    printf("%d", conta_quantas_vezes_o_numero_aparece_no_array);
-                    printf("\nHa numeros de dezenas duplicados, tente novamente\n");
-                    pede_valores_das_dezenas(dezenas, apostas); //tente novamente do zero #implementar melhoria aqui para não voltar do
-                    //zero, e sim retornar somente na aposta atual, pois de 2 apostas, o cliente não precisa reescrever as 2 apostas manuais,
-                    //somente uma, a que ele se encontra.
-                }
-            }
-        }
-        conta_quantas_vezes_o_numero_aparece_no_array = 0;
-
-    }
-   }
-
+void pede_valores_das_dezenas(int* dezenas, int* apostas,int** dezenas_escolhidas)
+{     
+	bool retorno;
+	do{
+		retorno = false;
+		int** array_que_aponta_pra_ponteiros_de_inteiros = (int**)malloc(*apostas * sizeof(int*));//define n numero de apostas manuais  que o usuario inseriu
+	   for(int c = 0; c < *apostas; c++){
+	    array_que_aponta_pra_ponteiros_de_inteiros[c] = (int*)malloc(*dezenas * sizeof(int));
+	
+	        for(int j = 0; j < *dezenas; j++){
+	            printf("\nDigite o valor da dezena [%d] da aposta [%d]\n",  j + 1, c + 1);
+	            scanf("%d", &array_que_aponta_pra_ponteiros_de_inteiros[c][j]);
+	        }
+	   }
+	
+	 // Demonstrando dezenas escolhidas separado por apostas
+	   for(int x = 0; x < *apostas; x++){
+	    printf("\nAposta %d: \n", x+1);
+	    for(int t = 0; t < *dezenas; t++){
+	        printf("\n[%d]", array_que_aponta_pra_ponteiros_de_inteiros[x][t]);
+	    }
+	   }
+	
+	   //Validação
+	   int conta_quantas_vezes_o_numero_aparece_no_array = 0;
+	   for(int a = 0; a < *apostas; a++){
+	    for(int b = 0; b < *dezenas; b++){
+	        //Aqui eu peço pra z ser 1 a mais que b, pois não faz sentido comparar z com numeros passados
+	        //pois os numeros passados já fizeram suas contagens com o restante dos numeros.
+	        //seria desnecessário comparar o index atual com o index anterior, ja que anterior ja foi comparado
+	        //com o atual. e também não faz sentido comparar o index atual com index atual, pois OBVIAMMENTE são valores iguais.
+	        for(int z = b + 1; z < *dezenas; z++){
+	            //quando b for diferente de z, ou seja, quando os indices forem diferentes.
+	            //pois não faz diferente comparar numeros quando sao de msm indice, pois OBVIAMMENTE serão iguais
+	            if(b != z && array_que_aponta_pra_ponteiros_de_inteiros[a][b] == array_que_aponta_pra_ponteiros_de_inteiros[a][z]){
+	                conta_quantas_vezes_o_numero_aparece_no_array++; //ele possui 1 ou mais incidencias no array, o que não é permitido
+	                if(conta_quantas_vezes_o_numero_aparece_no_array >= 1){
+	                    printf("%d", conta_quantas_vezes_o_numero_aparece_no_array);
+	                    printf("\nHa numeros de dezenas duplicados, tente novamente\n");
+	                    retorno = true;
+						break; //tente novamente do zero #implementar melhoria aqui para não voltar do
+	                    //zero, e sim retornar somente na aposta atual, pois de 2 apostas, o cliente não precisa reescrever as 2 apostas manuais,
+	                    //somente uma, a que ele se encontra.
+	                }
+	            }
+	        }
+	        conta_quantas_vezes_o_numero_aparece_no_array = 0;
+	
+	    }
+	   }
+	} while(retorno != false);
 }
 void gerar_dezenas_aleatorias(int quant_dezenas_a_gerar,int* vetor_a_preencher){
 	const int LIMITE_DEZENA = 60;
