@@ -62,7 +62,7 @@ void pede_valores_das_dezenas(int* dezenas, int* apostas,int** dezenas_escolhida
 	        printf("\n[%d]", array_que_aponta_pra_ponteiros_de_inteiros[x][t]);
 	    }
 	   }
-	
+		dezenas_escolhidas = array_que_aponta_pra_ponteiros_de_inteiros;
 	   //Validação
 	   int conta_quantas_vezes_o_numero_aparece_no_array = 0;
 	   for(int a = 0; a < *apostas; a++){
@@ -91,6 +91,7 @@ void pede_valores_das_dezenas(int* dezenas, int* apostas,int** dezenas_escolhida
 	    }
 	   }
 	} while(retorno != false);
+	
 }
 void gerar_dezenas_aleatorias(int quant_dezenas_a_gerar,int* vetor_a_preencher){
 	const int LIMITE_DEZENA = 60;
@@ -109,7 +110,7 @@ void gerar_dezenas_aleatorias(int quant_dezenas_a_gerar,int* vetor_a_preencher){
 	}
 }
 
-void gerar_matriz_pai_de_surpresinhas(int dezenas)
+void gerar_matriz_pai_de_surpresinhas(int dezenas,int** surpresinhas)
 {
     
 int quantidade_de_surpresinhas;
@@ -124,4 +125,5 @@ int quantidade_de_surpresinhas;
     printf("\nGERANDO SURPRESINHA %d\n", j + 1);
     gerar_dezenas_aleatorias(dezenas, matriz_pai_de_surpresinhas[j]);
 }
+	surpresinhas = matriz_pai_de_surpresinhas;
 }

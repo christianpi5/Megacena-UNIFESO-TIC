@@ -9,6 +9,7 @@ int main(){
     int teimosinhas, surpresinhas;
     
     int ** dezenas_escolhidas; //Matriz pra saber as dezenas escolhidas
+    int ** surpresinhas_sorteadas; //Matriz para salvar as surpresinhas do usuário
 	int *dezenas_sorteadas; // Vetor pra saber qual vai ser a combinação vencedora
 	
 	//Variável para controle de qual opção do menu o usuário vai escolher sendo 4 = saída
@@ -22,7 +23,17 @@ int main(){
     			solicitacoes(&quantidade_de_apostas_manuais, "Digite a quantidade de apostas manuais que voce ira jogar", 0, 3);
    				pede_valores_das_dezenas(&quantidade_de_dezenas_por_aposta, &quantidade_de_apostas_manuais,dezenas_escolhidas);
    				srand(time(NULL)); // Apenas aqui, uma vez
-    			gerar_matriz_pai_de_surpresinhas(quantidade_de_dezenas_por_aposta);
+   								      				
+    			gerar_matriz_pai_de_surpresinhas(quantidade_de_dezenas_por_aposta,surpresinhas_sorteadas);
+    			int tamY = sizeof(dezenas_escolhidas) / sizeof(dezenas_escolhidas[0]);
+    			int tamX = sizeof(dezenas_escolhidas[0]) / sizeof(dezenas_escolhidas[0][0]);
+				for(int i = 0; i < tamY ; i++){
+					for(int j = 0; j < tamX; j++){
+						printf("valor horizontal %d, vertical %d aaaaaaaaaaaaaaaaaa\n",tamX,tamY);
+						printf("\n\nDezena [%d] da aposta [%d]: %d\n\n",i,j,dezenas_escolhidas[i][j]);
+					}
+				}
+    			
 				break;
 			case '2':
 				break;
