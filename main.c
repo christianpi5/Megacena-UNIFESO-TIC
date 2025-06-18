@@ -22,6 +22,10 @@ int main(){
 				solicitacoes(&quantidade_de_dezenas_por_aposta, "Digite a quantidade de dezenas que voce ira jogar nas apostas", 6, 15);
     			solicitacoes(&quantidade_de_apostas_manuais, "Digite a quantidade de apostas manuais que voce ira jogar", 0, 3);
     			
+    			dezenas_escolhidas = (int**)malloc(quantidade_de_apostas_manuais * sizeof(int*));
+	   			for(int c = 0; c < quantidade_de_apostas_manuais; c++){
+	   				dezenas_escolhidas[c] = (int*)malloc(quantidade_de_dezenas_por_aposta * sizeof(int));
+				}
    				pede_valores_das_dezenas(&quantidade_de_dezenas_por_aposta, &quantidade_de_apostas_manuais,dezenas_escolhidas);
    				
    				srand(time(NULL)); // Apenas aqui, uma vez

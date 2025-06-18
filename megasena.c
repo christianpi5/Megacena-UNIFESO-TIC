@@ -51,10 +51,9 @@ void pede_valores_das_dezenas(int* dezenas, int* apostas,int** dezenas_escolhida
 	bool retorno;	
 	do{
 		retorno = false;
-		
-		dezenas_escolhidas = (int**)malloc(*apostas * sizeof(int*));
-	   for(int c = 0; c < *apostas; c++){
-	   	dezenas_escolhidas[c] = (int*)malloc(*dezenas * sizeof(int));	
+		//A variável aqui antes era a array_que_aponta_pra_ponteiros_de_inteiros, toda a lógica dessa variável segue a mesma, só que ao invés de instanciar ela na função, eu recebo ela direto da main
+
+	   for(int c = 0; c < *apostas; c++){	
 	        for(int j = 0; j < *dezenas; j++){
 	            printf("\nDigite o valor da dezena [%d] da aposta [%d]\n",  j + 1, c + 1);
 	            scanf("%d", &dezenas_escolhidas[c][j]);
