@@ -42,16 +42,22 @@ void solicitacoes(int* quantidade, char *frase,  int condicao1, int condicao2) /
 //Pegando cada digito e inserindo dentro do array de inteiros, que está dentro do array de ponteiros
 void pede_valores_das_dezenas(int* dezenas, int* apostas,int** dezenas_escolhidas)
 {     
-	bool retorno;
+	
+	/*
+	Agora o código não usa de recursão para retornar ao início, ele roda dentro de um while, essa implementação ainda não está 100%, vai ser preciso 
+	Usar um segundo while para o fluxo ser o seguinte, -> Input do usuario -> validacao -> input -> validacao... 
+	Assim a validação é feita por aposta para não precisar voltar os inputs ao início
+	*/
+	bool retorno;	
 	do{
 		retorno = false;
-		int** array_que_aponta_pra_ponteiros_de_inteiros = (int**)malloc(*apostas * sizeof(int*));//define n numero de apostas manuais  que o usuario inseriu
+		
+		dezenas_escolhidas = (int**)malloc(*apostas * sizeof(int*));
 	   for(int c = 0; c < *apostas; c++){
-	    array_que_aponta_pra_ponteiros_de_inteiros[c] = (int*)malloc(*dezenas * sizeof(int));
-	
+	   	dezenas_escolhidas[c] = (int*)malloc(*dezenas * sizeof(int));	
 	        for(int j = 0; j < *dezenas; j++){
 	            printf("\nDigite o valor da dezena [%d] da aposta [%d]\n",  j + 1, c + 1);
-	            scanf("%d", &array_que_aponta_pra_ponteiros_de_inteiros[c][j]);
+	            scanf("%d", &dezenas_escolhidas[c][j]);
 	        }
 	   }
 	
@@ -59,10 +65,9 @@ void pede_valores_das_dezenas(int* dezenas, int* apostas,int** dezenas_escolhida
 	   for(int x = 0; x < *apostas; x++){
 	    printf("\nAposta %d: \n", x+1);
 	    for(int t = 0; t < *dezenas; t++){
-	        printf("\n[%d]", array_que_aponta_pra_ponteiros_de_inteiros[x][t]);
+	        printf("\n[%d]", dezenas_escolhidas[x][t]);
 	    }
 	   }
-		dezenas_escolhidas = array_que_aponta_pra_ponteiros_de_inteiros;
 	   //Validação
 	   int conta_quantas_vezes_o_numero_aparece_no_array = 0;
 	   for(int a = 0; a < *apostas; a++){
@@ -74,7 +79,7 @@ void pede_valores_das_dezenas(int* dezenas, int* apostas,int** dezenas_escolhida
 	        for(int z = b + 1; z < *dezenas; z++){
 	            //quando b for diferente de z, ou seja, quando os indices forem diferentes.
 	            //pois não faz diferente comparar numeros quando sao de msm indice, pois OBVIAMMENTE serão iguais
-	            if(b != z && array_que_aponta_pra_ponteiros_de_inteiros[a][b] == array_que_aponta_pra_ponteiros_de_inteiros[a][z]){
+	            if(b != z && dezenas_escolhidas[a][b] == dezenas_escolhidas[a][z]){
 	                conta_quantas_vezes_o_numero_aparece_no_array++; //ele possui 1 ou mais incidencias no array, o que não é permitido
 	                if(conta_quantas_vezes_o_numero_aparece_no_array >= 1){
 	                    printf("%d", conta_quantas_vezes_o_numero_aparece_no_array);
@@ -91,7 +96,6 @@ void pede_valores_das_dezenas(int* dezenas, int* apostas,int** dezenas_escolhida
 	    }
 	   }
 	} while(retorno != false);
-	
 }
 void gerar_dezenas_aleatorias(int quant_dezenas_a_gerar,int* vetor_a_preencher){
 	const int LIMITE_DEZENA = 60;
@@ -110,13 +114,8 @@ void gerar_dezenas_aleatorias(int quant_dezenas_a_gerar,int* vetor_a_preencher){
 	}
 }
 
-void gerar_matriz_pai_de_surpresinhas(int dezenas,int** surpresinhas)
+void gerar_matriz_pai_de_surpresinhas(int quantidade_de_surpresinhas,int dezenas,int** surpresinhas)
 {
-    
-int quantidade_de_surpresinhas;
-    printf("\nDigite quantas surpresinhas vai querer\n");
-    scanf("%d", &quantidade_de_surpresinhas);
-
     //Criação da MATRIZ de surpresinhas
     int** matriz_pai_de_surpresinhas = (int**)malloc(quantidade_de_surpresinhas * sizeof(int*));
 
