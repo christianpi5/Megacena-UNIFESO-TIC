@@ -115,13 +115,10 @@ void gerar_dezenas_aleatorias(int quant_dezenas_a_gerar,int* vetor_a_preencher){
 
 void gerar_matriz_pai_de_surpresinhas(int quantidade_de_surpresinhas,int dezenas,int** surpresinhas)
 {
-    //Criação da MATRIZ de surpresinhas
-    int** matriz_pai_de_surpresinhas = (int**)malloc(quantidade_de_surpresinhas * sizeof(int*));
 
     for (int j = 0; j < quantidade_de_surpresinhas; j++) {
-    matriz_pai_de_surpresinhas[j] = (int*)malloc(dezenas * sizeof(int));
-    printf("\nGERANDO SURPRESINHA %d\n", j + 1);
-    gerar_dezenas_aleatorias(dezenas, matriz_pai_de_surpresinhas[j]);
-}
-	surpresinhas = matriz_pai_de_surpresinhas;
+	    printf("\nGERANDO SURPRESINHA %d\n", j + 1);
+	    gerar_dezenas_aleatorias(dezenas, surpresinhas[j]);
+	}
+	surpresinhas;
 }

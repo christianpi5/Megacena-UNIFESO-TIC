@@ -32,15 +32,29 @@ int main(){
    				
    				//Agora a solicitação pela quantidade de surpresinhas é feita pela função de solicitação
    				solicitacoes(&quantidade_de_surpresinhas, "Digite a quantidade de surpresinhas que voce quer", 0, 7);
+   				
+   				surpresinhas_sorteadas = (int**)malloc(quantidade_de_apostas_manuais * sizeof(int*));
+	   			for(int c = 0; c < quantidade_de_surpresinhas; c++){
+	   				surpresinhas_sorteadas[c] = (int*)malloc(quantidade_de_dezenas_por_aposta * sizeof(int));
+				}
     			gerar_matriz_pai_de_surpresinhas(quantidade_de_surpresinhas,quantidade_de_dezenas_por_aposta,surpresinhas_sorteadas);
     			
- 				//Essa parte abaixo eu coloquei só pra mostrar que agora a main tem acesso as dezenas escolhidas pelo usuário
-				//Esse mesmo código funciona se refeito para surpresinhas   			
+
+    			
+//				Essa parte abaixo eu coloquei só pra mostrar que agora a main tem acesso as dezenas escolhidas pelo usuário
+//				Esse mesmo código funciona se refeito para surpresinhas   			
 //				for(int i = 0; i < quantidade_de_apostas_manuais ; i++){
 //					for(int j = 0; j < quantidade_de_dezenas_por_aposta; j++){
 //						printf("\n\nTamanho da array: %d\n",sizeof(dezenas_escolhidas));
 //						printf("\n\nDezena [%d] da aposta [%d]: %d\n\n",i,j,dezenas_escolhidas[i][j]);
 //					}
+//				}
+//				Repetindo o código acima pra teste de surpresinha
+//    			for(int i = 0; i < quantidade_de_surpresinhas;i++){
+//    				for(int j = 0; j < quantidade_de_dezenas_por_aposta; j++){
+//    					printf("\n\nDezena [%d] da surpresinha [%d]: %d\n\n",j,i,surpresinhas_sorteadas[i][j]);	
+//					}
+//    				
 //				}
     			
 				break;
