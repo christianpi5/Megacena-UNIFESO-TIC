@@ -33,7 +33,7 @@ int main(){
    				//Agora a solicitação pela quantidade de surpresinhas é feita pela função de solicitação
    				solicitacoes(&quantidade_de_surpresinhas, "Digite a quantidade de surpresinhas que voce quer", 0, 7);
    				
-   				surpresinhas_sorteadas = (int**)malloc(quantidade_de_apostas_manuais * sizeof(int*));
+   				surpresinhas_sorteadas = (int**)malloc(quantidade_de_surpresinhas * sizeof(int*));
 	   			for(int c = 0; c < quantidade_de_surpresinhas; c++){
 	   				surpresinhas_sorteadas[c] = (int*)malloc(quantidade_de_dezenas_por_aposta * sizeof(int));
 				}
