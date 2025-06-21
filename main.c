@@ -1,4 +1,5 @@
 #include "megasena.h"
+#include "megasena.c"
 #include <stdlib.h>
 #include <stdio.h>
 #include <time.h>
@@ -13,34 +14,28 @@ int main(){
 	int *dezenas_sorteadas; // Vetor pra saber qual vai ser a combinação vencedora
 	
 	//Variável para controle de qual opção do menu o usuário vai escolher sendo 4 = saída
-	char escolha_usuario = '0';
-	while(escolha_usuario != '4'){
-		menu();
-		scanf("%c",&escolha_usuario);
-		switch(escolha_usuario){
-			case '1':
-				solicitacoes(&quantidade_de_dezenas_por_aposta, "Digite a quantidade de dezenas que voce ira jogar nas apostas", 6, 15);
-    			solicitacoes(&quantidade_de_apostas_manuais, "Digite a quantidade de apostas manuais que voce ira jogar", 0, 3);
-    			
-    			dezenas_escolhidas = (int**)malloc(quantidade_de_apostas_manuais * sizeof(int*));
-	   			for(int c = 0; c < quantidade_de_apostas_manuais; c++){
-	   				dezenas_escolhidas[c] = (int*)malloc(quantidade_de_dezenas_por_aposta * sizeof(int));
-				}
-   				pede_valores_das_dezenas(&quantidade_de_dezenas_por_aposta, &quantidade_de_apostas_manuais,dezenas_escolhidas);
-   				
-   				srand(time(NULL)); // Apenas aqui, uma vez
-   				
-   				//Agora a solicitação pela quantidade de surpresinhas é feita pela função de solicitação
-   				solicitacoes(&quantidade_de_surpresinhas, "Digite a quantidade de surpresinhas que voce quer", 0, 7);
-   				
-   				surpresinhas_sorteadas = (int**)malloc(quantidade_de_surpresinhas * sizeof(int*));
-	   			for(int c = 0; c < quantidade_de_surpresinhas; c++){
-	   				surpresinhas_sorteadas[c] = (int*)malloc(quantidade_de_dezenas_por_aposta * sizeof(int));
-				}
-    			gerar_matriz_pai_de_surpresinhas(quantidade_de_surpresinhas,quantidade_de_dezenas_por_aposta,surpresinhas_sorteadas);
-    			
+	menu();
 
-    			
+
+	solicitacoes(&quantidade_de_dezenas_por_aposta, "Digite a quantidade de dezenas que voce ira jogar nas apostas", 6, 15);
+	solicitacoes(&quantidade_de_apostas_manuais, "Digite a quantidade de apostas manuais que voce ira jogar", 0, 3);
+	
+	dezenas_escolhidas = (int**)malloc(quantidade_de_apostas_manuais * sizeof(int*));
+	for(int c = 0; c < quantidade_de_apostas_manuais; c++){
+		dezenas_escolhidas[c] = (int*)malloc(quantidade_de_dezenas_por_aposta * sizeof(int));
+	}
+	pede_valores_das_dezenas(&quantidade_de_dezenas_por_aposta, &quantidade_de_apostas_manuais,dezenas_escolhidas);
+	
+	srand(time(NULL)); // Apenas aqui, uma vez
+	
+	//Agora a solicitação pela quantidade de surpresinhas é feita pela função de solicitação
+	solicitacoes(&quantidade_de_surpresinhas, "Digite a quantidade de surpresinhas que voce quer", 0, 7);
+	
+	surpresinhas_sorteadas = (int**)malloc(quantidade_de_surpresinhas * sizeof(int*));
+	for(int c = 0; c < quantidade_de_surpresinhas; c++){
+		surpresinhas_sorteadas[c] = (int*)malloc(quantidade_de_dezenas_por_aposta * sizeof(int));
+	}
+	gerar_matriz_pai_de_surpresinhas(quantidade_de_surpresinhas,quantidade_de_dezenas_por_aposta,surpresinhas_sorteadas);
 //				Essa parte abaixo eu coloquei só pra mostrar que agora a main tem acesso as dezenas escolhidas pelo usuário
 //				Esse mesmo código funciona se refeito para surpresinhas   			
 //				for(int i = 0; i < quantidade_de_apostas_manuais ; i++){
@@ -56,22 +51,5 @@ int main(){
 //					}
 //    				
 //				}
-    			
-				break;
-			case '2':
-				break;
-			case '3':
-				break;
-			case '4':
-				printf("\nObrigado por usar nossos servicos, volte sempre!");
-				return 0;
-				break;
-			default:
-				printf("Valor invalido");
-				break;
-				
-		}
-	}
-
     return 0;
 }

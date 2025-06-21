@@ -20,15 +20,11 @@ void menu()
             printf("[ %d ]", j + 1); 
         }
     }
-    printf("\n\nOla, bem vindo ao app da mega sena, o que voce deseja?\n"
-	"1 - Criar aposta\n"
-	"2 - Verificar aposta criada\n"
-	"3 - Verificar resultado\n"
-	"4 - Sair da aplicacao\n");
+    printf("\n\nOla, bem vindo ao app da mega sena! \n");
 }
 void solicitacoes(int* quantidade, char *frase,  int condicao1, int condicao2) //modularizar solicitações
 {
-    printf("\n\n %s \n", frase);
+    printf("\n\n%s \n", frase);
     scanf("%d", quantidade);
 
     if(*quantidade < condicao1 || *quantidade > condicao2){
