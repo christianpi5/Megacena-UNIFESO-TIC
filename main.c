@@ -58,10 +58,64 @@ int main(){
     int* valor_sorteado = (int*)malloc(6 * sizeof(int) );
     gerar_dezena_sorteada(valor_sorteado);
     
-    //Comparando
-   int acertos = comparar(valor_sorteado, surpresinhas_sorteadas[0], quantidade_de_dezenas_por_aposta);
-   printf("\nNumero de acertos: %d\n", acertos);
     
+    //Loop para definir acertos
+    int indice_surpresinha = 0;
+    int indice_manual = 0;
+    int quadras = 0;
+    int quinas = 0;
+    int senas = 0;
+
+    //Essas variaveis determinam quantas "quadras/senas/quinas" o usuario vai ter de acordo com quantas dezenas ele escolheu(6 - 15) e ao acertar 4/5 ou 6 numeros.
+    //(ao chamar a função ocorrencias)
+    int iteracao_4_acertos = (quantidade_de_dezenas_por_aposta - 6) + 1;
+    int iteracao_5_acertos_quadra = (quantidade_de_dezenas_por_aposta - 6);
+    int iteracao_5_acertos_quina = (quantidade_de_dezenas_por_aposta - 5);
+    int iteracao_6_acertos_quadra = (quantidade_de_dezenas_por_aposta - 6);
+    int iteracao_6_acertos_quina = (quantidade_de_dezenas_por_aposta - 6);
+
+        //int acertos_manual = 6; <---- use aqui e comente o acertos_manual debaixo para testar <-------------------------------------------
+        do{
+        int acertos_manual = comparar(valor_sorteado, dezenas_escolhidas[indice_manual], quantidade_de_dezenas_por_aposta);
+
+        printf("\nAcertos de aposta manual numero %d: %d\n", indice_manual + 1, acertos_manual);
+
+        if(acertos_manual == 4){
+            ocorrencias(acertos_manual, iteracao_4_acertos,0, &quadras, &quinas, &senas);
+            printf("\nSeu numero de quadras foi: %d\n", quadras); //ok
+        }else if(acertos_manual == 5){
+            ocorrencias(acertos_manual, iteracao_5_acertos_quadra, iteracao_5_acertos_quina, &quadras, &quinas, &senas);
+            printf("\nSeu numero de quadras foi: %d\n", quadras); //ok
+            printf("\nSeu numero de quinas foi: %d\n", quinas); //ok
+
+        } else if(acertos_manual == 6){
+            ocorrencias(acertos_manual, iteracao_6_acertos_quadra, iteracao_6_acertos_quina, &quadras, &quinas, &senas);
+            printf("\nSeu numero de quadras foi: %d\n", quadras); //ok
+            printf("\nSeu numero de quinas foi: %d\n", quinas);  //ok
+            printf("\nSeu numero de senas foi: %d\n", senas); //sempre 1
+        }
+
+        indice_manual++;
+    } while(indice_manual < quantidade_de_apostas_manuais);
+
+    printf("\nfim\n");
+
+    do{
+        int acertos = comparar(valor_sorteado, surpresinhas_sorteadas[indice_surpresinha], quantidade_de_dezenas_por_aposta);
+        printf("\nAcertos de surpresinha numero %d: %d\n", indice_surpresinha + 1, acertos);
+
+        if(acertos == 4){
+            ocorrencias(acertos, iteracao_4_acertos,0, &quadras, &quinas, &senas);
+        }else if(acertos == 5){
+            ocorrencias(acertos, iteracao_5_acertos_quadra, iteracao_5_acertos_quina, &quadras, &quinas, &senas);
+        } else if(acertos == 6){
+            ocorrencias(acertos, iteracao_6_acertos_quadra, iteracao_6_acertos_quina, &quadras, &quinas, &senas);
+        }
+        indice_surpresinha++;
+    } while(indice_surpresinha < quantidade_de_surpresinhas);
+
+
+
 
     return 0;
 }

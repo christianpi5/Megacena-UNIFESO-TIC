@@ -139,3 +139,42 @@ int comparar(int* valor_sorteado, int* dezenas_do_usuario, int quantidade_de_dez
 	}
 	return acertos;
 }
+
+int ocorrencias(int acertos, int iteracao1, int iteracao2, int* quadras, int* quinas, int* senas)
+{
+	if(acertos ==6){
+	*senas = 1;
+		for(int j = 2; j < iteracao1 + 1; j++){
+			if(iteracao1 != 0){
+				*quadras += (15 *( j -1)); 
+			}
+		}
+
+		for(int j = 1; j < iteracao2 + 1; j++){
+			if(iteracao2 != 0){
+				if(j == 1){
+					*quinas += 6*j; 
+				}else{
+					*quinas += 6; 
+				}
+			}
+		}
+	}
+
+	else if(acertos >= 5){
+		for(int j = 1; j < iteracao1 + 1; j++){
+			if(iteracao1 != 0){
+				*quadras += (5 * j); 
+			}
+		 }
+		for(int j = 1; j <= iteracao2; j++){
+			*quinas += 1;
+		 }
+	}
+	else if(acertos == 4){
+		 for(int j = 1; j <= iteracao1; j++){
+			*quadras += j;
+		 }
+	}
+    return 0;
+}

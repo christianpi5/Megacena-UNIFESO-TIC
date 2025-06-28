@@ -11,5 +11,7 @@ void gerar_dezena_sorteada(int* valor_sorteado);
 
 int comparar(int* valor_sorteado, int* dezenas_do_usuario, int quantidade_de_dezenas_por_aposta);
 
+int ocorrencias(int acertos, int iteracao1, int iteracao2, int* quadras, int* quinas, int* senas);
+
 
 #endif
