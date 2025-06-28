@@ -44,24 +44,24 @@ int main(){
 		surpresinhas_sorteadas[c] = (int*)malloc(quantidade_de_dezenas_por_aposta * sizeof(int));
 	}
 	gerar_matriz_pai_de_surpresinhas(quantidade_de_surpresinhas,quantidade_de_dezenas_por_aposta,surpresinhas_sorteadas);
+    if(teimosinhas == 0){
+        teimosinhas =1;
+        
+    };
+    
     valor_aposta = teimosinhas * (valor_dezena[quantidade_de_dezenas_por_aposta - 6] * (quantidade_de_apostas_manuais + quantidade_de_surpresinhas));
     
     printf("A sua aposta requer um deposito de: %.2f\nDeseja confirmar? ",valor_aposta);
     
-//				Essa parte abaixo eu coloquei só pra mostrar que agora a main tem acesso as dezenas escolhidas pelo usuário
-//				Esse mesmo código funciona se refeito para surpresinhas   			
-//				for(int i = 0; i < quantidade_de_apostas_manuais ; i++){
-//					for(int j = 0; j < quantidade_de_dezenas_por_aposta; j++){
-//						printf("\n\nTamanho da array: %d\n",sizeof(dezenas_escolhidas));
-//						printf("\n\nDezena [%d] da aposta [%d]: %d\n\n",i,j,dezenas_escolhidas[i][j]);
-//					}
-//				}
-//				Repetindo o código acima pra teste de surpresinha
-//    			for(int i = 0; i < quantidade_de_surpresinhas;i++){
-//    				for(int j = 0; j < quantidade_de_dezenas_por_aposta; j++){
-//    					printf("\n\nDezena [%d] da surpresinha [%d]: %d\n\n",j,i,surpresinhas_sorteadas[i][j]);	
-//					}
-//    				
-//				}
+//MUDANÇAS
+
+    int* valor_sorteado = (int*)malloc(6 * sizeof(int) );
+    gerar_dezena_sorteada(valor_sorteado);
+    
+    //Comparando
+   int acertos = comparar(valor_sorteado, surpresinhas_sorteadas[0], quantidade_de_dezenas_por_aposta);
+   printf("\nNumero de acertos: %d\n", acertos);
+    
+
     return 0;
 }
