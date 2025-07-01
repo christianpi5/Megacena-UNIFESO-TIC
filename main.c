@@ -51,7 +51,7 @@ int main(){
     
     valor_aposta = teimosinhas * (valor_dezena[quantidade_de_dezenas_por_aposta - 6] * (quantidade_de_apostas_manuais + quantidade_de_surpresinhas));
     
-    printf("A sua aposta requer um deposito de: %.2f\nDeseja confirmar? ",valor_aposta);
+    printf("A sua aposta requer um deposito de: %.2f\n Boa sorte! ",valor_aposta);
     
 //MUDANÇAS
 
