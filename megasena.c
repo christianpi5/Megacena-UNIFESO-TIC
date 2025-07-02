@@ -1,87 +1,189 @@
 #include "megasena.h"
 #include <stdlib.h>
 #include <stdio.h>
+#include <time.h>
+#include <stdbool.h>
 
 void menu()
 {
-    printf("\n\t\t** MEGA SENA **\n");
+	printf("\n\t\t** MEGA SENA **\n");
 
-    for(int j = 0; j < 60; j++){
+	for(int j = 0; j < 60; j++) {
 		// Toda vez que o j for divisivel por 10 ele da a quebra de linha
-        if(j % 10 == 0){
-            printf("\n");
-        }
-        //Assim tira a necessidade de ter 2 dois for, e reduz pra um só, sem ter a necessidade de salvar os números a serem exibidos
-        if(j + 1 < 10 ){
-            printf("[ 0%d ]", j + 1); //Acrescenta um zero a esquerda para numeros < 9 para deixar a formatação mais bonita
-        }else{
-            printf("[ %d ]", j + 1); 
-        }
-    }
+		if(j % 10 == 0) {
+			printf("\n");
+		}
+		//Assim tira a necessidade de ter 2 dois for, e reduz pra um sC3, sem ter a necessidade de salvar os nC:meros a serem exibidos
+		if(j + 1 < 10 ) {
+			printf("[ 0%d ]", j + 1); //Acrescenta um zero a esquerda para numeros < 9 para deixar a formataC'C#o mais bonita
+		} else {
+			printf("[ %d ]", j + 1);
+		}
+	}
+	printf("\n\nOla, bem vindo ao app da mega sena! \n");
 }
-void solicitacoes(int* quantidade, char *frase,  int condicao1, int condicao2) //modularizar solicitações
+void solicitacoes(int* quantidade, char *frase,  int condicao1, int condicao2) //modularizar solicitaC'C5es
 {
-    printf("\n\n %s \n", frase);
-    scanf("%d", quantidade);
+	printf("\n\n%s \n", frase);
+	scanf("%d", quantidade);
 
-    if(*quantidade < condicao1 || *quantidade > condicao2){
-        printf("\tInvalido, try again");
-        solicitacoes(quantidade, frase, condicao1, condicao2); //recursão para casos triviais 
-    } 
-    else{
-       printf("teste");
-    }
+	if(*quantidade < condicao1 || *quantidade > condicao2) {
+		printf("\tInvalido, try again");
+		solicitacoes(quantidade, frase, condicao1, condicao2); //recursC#o para casos triviais
+	}
 
 }
 
 //implementando a logica do professor em sala. criando array de ponteiros para array com inteiros.
-//Pegando cada digito e inserindo dentro do array de inteiros, que está dentro do array de ponteiros
-void pede_valores_das_dezenas(int *dezenas, int *apostas)
+//Pegando cada digito e inserindo dentro do array de inteiros, que estC! dentro do array de ponteiros
+void pede_valores_das_dezenas(int* dezenas, int* apostas,int** dezenas_escolhidas)
 {
-   int** array_que_aponta_pra_ponteiros_de_inteiros = (int**)malloc(*apostas * sizeof(int*));//define n numero de apostas manuais  que o usuario inseriu
-   
-   for(int c = 0; c < *apostas; c++){
-    array_que_aponta_pra_ponteiros_de_inteiros[c] = (int*)malloc(*dezenas * sizeof(int));
 
-        for(int j = 0; j < *dezenas; j++){
-            printf("\nDigite o valor da aposta manual numero %d e seu digito numero %d\n", c + 1, j + 1);
-            scanf("%d", &array_que_aponta_pra_ponteiros_de_inteiros[c][j]);
-        }
-   }
+	/*
+	Agora o cC3digo nC#o usa de recursC#o para retornar ao inC-cio, ele roda dentro de um while, essa implementaC'C#o ainda nC#o estC! 100%, vai ser preciso
+	Usar um segundo while para o fluxo ser o seguinte, -> Input do usuario -> validacao -> input -> validacao...
+	Assim a validaC'C#o C) feita por aposta para nC#o precisar voltar os inputs ao inC-cio
+	*/
+	bool retorno;
+	valor_invalido:
+	do {
+		retorno = false;
+		//A variC!vel aqui antes era a array_que_aponta_pra_ponteiros_de_inteiros, toda a lC3gica dessa variC!vel segue a mesma, sC3 que ao invC)s de instanciar ela na funC'C#o, eu recebo ela direto da main
 
- // FUNCIONA !!!!!!!! - falta retornar esses valores para main though ...
-   for(int x = 0; x < *apostas; x++){
-    for(int t = 0; t < *dezenas; t++){
-        printf("\n%d", array_que_aponta_pra_ponteiros_de_inteiros[x][t]);
+		for(int c = 0; c < *apostas; c++) {
+			for(int j = 0; j < *dezenas; j++) {
+				printf("\nDigite o valor da dezena [%d] da aposta [%d]\n",  j + 1, c + 1);
+				scanf("%d", &dezenas_escolhidas[c][j]);
+			}
+		}
 
-    }
-   }
+		// Demonstrando dezenas escolhidas separado por apostas
+		for(int x = 0; x < *apostas; x++) {
+			printf("\nAposta %d: \n", x+1);
+			for(int t = 0; t < *dezenas; t++) {
+				printf("\n[%d]", dezenas_escolhidas[x][t]);
+			}
+		}
+		//ValidaC'C#o
+		
+		
+		int conta_quantas_vezes_o_numero_aparece_no_array = 0;
+		for(int a = 0; a < *apostas; a++) {
+			for(int b = 0; b < *dezenas; b++) {
+				//Aqui eu peC'o pra z ser 1 a mais que b, pois nC#o faz sentido comparar z com numeros passados
+				//pois os numeros passados jC! fizeram suas contagens com o restante dos numeros.
+				//seria desnecessC!rio comparar o index atual com o index anterior, ja que anterior ja foi comparado
+				//com o atual. e tambC)m nC#o faz sentido comparar o index atual com index atual, pois OBVIAMMENTE sC#o valores iguais.
+				if(dezenas_escolhidas[a][b] < 1 || dezenas_escolhidas[a][b] > 60){
+				    printf("\nValor invalido, o valor deve ser maior que 0 e menor que 60\n");
+				    goto valor_invalido;
+				    
+				}
+				for(int z = b + 1; z < *dezenas; z++) {
+					//quando b for diferente de z, ou seja, quando os indices forem diferentes.
+					//pois nC#o faz diferente comparar numeros quando sao de msm indice, pois OBVIAMMENTE serC#o iguais
+					if(b != z && dezenas_escolhidas[a][b] == dezenas_escolhidas[a][z]) {
+						conta_quantas_vezes_o_numero_aparece_no_array++; //ele possui 1 ou mais incidencias no array, o que nC#o C) permitido
+						if(conta_quantas_vezes_o_numero_aparece_no_array >= 1) {
+							printf("%d", conta_quantas_vezes_o_numero_aparece_no_array);
+							printf("\nHa numeros de dezenas duplicados, tente novamente\n");
+							retorno = true;
+							break; //tente novamente do zero #implementar melhoria aqui para nC#o voltar do
+							//zero, e sim retornar somente na aposta atual, pois de 2 apostas, o cliente nC#o precisa reescrever as 2 apostas manuais,
+							//somente uma, a que ele se encontra.
+						}
+					}
+				}
+				conta_quantas_vezes_o_numero_aparece_no_array = 0;
 
-   //Validação
-   int conta_quantas_vezes_o_numero_aparece_no_array = 0;
-   for(int a = 0; a < *apostas; a++){
-    for(int b = 0; b < *dezenas; b++){
-        //Aqui eu peço pra z ser 1 a mais que b, pois não faz sentido comparar z com numeros passados
-        //pois os numeros passados já fizeram suas contagens com o restante dos numeros.
-        //seria desnecessário comparar o index atual com o index anterior, ja que anterior ja foi comparado
-        //com o atual. e também não faz sentido comparar o index atual com index atual, pois OBVIAMMENTE são valores iguais.
-        for(int z = b + 1; z < *dezenas; z++){
-            //quando b for diferente de z, ou seja, quando os indices forem diferentes.
-            //pois não faz diferente comparar numeros quando sao de msm indice, pois OBVIAMMENTE serão iguais
-            if(b != z && array_que_aponta_pra_ponteiros_de_inteiros[a][b] == array_que_aponta_pra_ponteiros_de_inteiros[a][z]){
-                conta_quantas_vezes_o_numero_aparece_no_array++; //ele possui 1 ou mais incidencias no array, o que não é permitido
-                if(conta_quantas_vezes_o_numero_aparece_no_array >= 1){
-                    printf("%d", conta_quantas_vezes_o_numero_aparece_no_array);
-                    printf("\nHa numeros de dezenas duplicados, tente novamente\n");
-                    pede_valores_das_dezenas(dezenas, apostas); //tente novamente do zero #implementar melhoria aqui para não voltar do
-                    //zero, e sim retornar somente na aposta atual, pois de 2 apostas, o cliente não precisa reescrever as 2 apostas manuais,
-                    //somente uma, a que ele se encontra.
-                }
-            }
-        }
-        conta_quantas_vezes_o_numero_aparece_no_array = 0;
+			}
+		}
+	} while(retorno != false);
+}
+void gerar_dezenas_aleatorias(int quant_dezenas_a_gerar,int* vetor_a_preencher) {
+	const int LIMITE_DEZENA = 60;
 
-    }
-   }
+	for(int i = 0; i < quant_dezenas_a_gerar; i++) {
+		vetor_a_preencher[i] = rand() % LIMITE_DEZENA + 1; //Limita os valores aleatC3rios a 60
+		for(int j = 0; j < i; j++) { //obriga I a refazer um novo numero aleatoria caso o mesmo seja identico a algum numero anterior desde que J<I
+			if(vetor_a_preencher[j] == vetor_a_preencher[i]) {
+				i--;
+				break;
+			}
+		}
+	}
+}
 
+void gerar_matriz_pai_de_surpresinhas(int quantidade_de_surpresinhas,int dezenas,int** surpresinhas)
+{
+	for (int j = 0; j < quantidade_de_surpresinhas; j++) {
+		printf("\nGERANDO SURPRESINHA %d\n", j + 1);
+		gerar_dezenas_aleatorias(dezenas, surpresinhas[j]);
+		
+		for(int i = 0; i < dezenas ; i++) {
+	    	printf("\nValor [%d]: %d",i,surpresinhas[j][i]);
+	    }
+	}
+	surpresinhas;
+	
+}
+
+void gerar_dezena_sorteada(int* valor_sorteado) {
+	gerar_dezenas_aleatorias(6, valor_sorteado);
+}
+
+int comparar(int* valor_sorteado, int* dezenas_do_usuario, int quantidade_de_dezenas_por_aposta) {
+	int acertos = 0; //quantas vezes um array tem um numero igual ao outro
+
+	for(int i = 0; i < 6; i++) {
+		for(int j = 0; j < quantidade_de_dezenas_por_aposta; j++) {
+			if(valor_sorteado[i] == dezenas_do_usuario[j]){
+			 acertos++;   
+			}
+
+
+		}
+
+
+	}
+	return acertos;
+}
+
+int ocorrencias(int acertos, int iteracao1, int iteracao2, int* quadras, int* quinas, int* senas)
+{
+	if(acertos ==6){
+	*senas += 1;
+		for(int j = 2; j < iteracao1 + 1; j++){
+			if(iteracao1 != 0){
+				*quadras += (15 *( j -1)); 
+			}
+		}
+
+		for(int j = 1; j < iteracao2 + 1; j++){
+			if(iteracao2 != 0){
+				if(j == 1){
+					*quinas += 6*j; 
+				}else{
+					*quinas += 6; 
+				}
+			}
+		}
+	}
+
+	else if(acertos >= 5){
+		for(int j = 1; j < iteracao1 + 1; j++){
+			if(iteracao1 != 0){
+				*quadras += (5 * j); 
+			}
+		 }
+		for(int j = 1; j <= iteracao2; j++){
+			*quinas += 1;
+		 }
+	}
+	else if(acertos == 4){
+		 for(int j = 1; j <= iteracao1; j++){
+			*quadras += j;
+		 }
+	}
+    return 0;
 }
