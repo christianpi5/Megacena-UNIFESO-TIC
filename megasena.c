@@ -45,6 +45,7 @@ void pede_valores_das_dezenas(int* dezenas, int* apostas,int** dezenas_escolhida
 	Assim a validaC'C#o C) feita por aposta para nC#o precisar voltar os inputs ao inC-cio
 	*/
 	bool retorno;
+	valor_invalido:
 	do {
 		retorno = false;
 		//A variC!vel aqui antes era a array_que_aponta_pra_ponteiros_de_inteiros, toda a lC3gica dessa variC!vel segue a mesma, sC3 que ao invC)s de instanciar ela na funC'C#o, eu recebo ela direto da main
@@ -64,6 +65,8 @@ void pede_valores_das_dezenas(int* dezenas, int* apostas,int** dezenas_escolhida
 			}
 		}
 		//ValidaC'C#o
+		
+		
 		int conta_quantas_vezes_o_numero_aparece_no_array = 0;
 		for(int a = 0; a < *apostas; a++) {
 			for(int b = 0; b < *dezenas; b++) {
@@ -71,6 +74,11 @@ void pede_valores_das_dezenas(int* dezenas, int* apostas,int** dezenas_escolhida
 				//pois os numeros passados jC! fizeram suas contagens com o restante dos numeros.
 				//seria desnecessC!rio comparar o index atual com o index anterior, ja que anterior ja foi comparado
 				//com o atual. e tambC)m nC#o faz sentido comparar o index atual com index atual, pois OBVIAMMENTE sC#o valores iguais.
+				if(dezenas_escolhidas[a][b] < 1 || dezenas_escolhidas[a][b] > 60){
+				    printf("\nValor invalido, o valor deve ser maior que 0 e menor que 60\n");
+				    goto valor_invalido;
+				    
+				}
 				for(int z = b + 1; z < *dezenas; z++) {
 					//quando b for diferente de z, ou seja, quando os indices forem diferentes.
 					//pois nC#o faz diferente comparar numeros quando sao de msm indice, pois OBVIAMMENTE serC#o iguais
@@ -104,19 +112,20 @@ void gerar_dezenas_aleatorias(int quant_dezenas_a_gerar,int* vetor_a_preencher) 
 			}
 		}
 	}
-	for(int i = 0; i < quant_dezenas_a_gerar; i++) {
-		printf("\nValor [%d]: %d",i,vetor_a_preencher[i]);
-	}
 }
 
 void gerar_matriz_pai_de_surpresinhas(int quantidade_de_surpresinhas,int dezenas,int** surpresinhas)
 {
-
 	for (int j = 0; j < quantidade_de_surpresinhas; j++) {
 		printf("\nGERANDO SURPRESINHA %d\n", j + 1);
 		gerar_dezenas_aleatorias(dezenas, surpresinhas[j]);
+		
+		for(int i = 0; i < dezenas ; i++) {
+	    	printf("\nValor [%d]: %d",i,surpresinhas[j][i]);
+	    }
 	}
 	surpresinhas;
+	
 }
 
 void gerar_dezena_sorteada(int* valor_sorteado) {
@@ -143,7 +152,7 @@ int comparar(int* valor_sorteado, int* dezenas_do_usuario, int quantidade_de_dez
 int ocorrencias(int acertos, int iteracao1, int iteracao2, int* quadras, int* quinas, int* senas)
 {
 	if(acertos ==6){
-	*senas = 1;
+	*senas += 1;
 		for(int j = 2; j < iteracao1 + 1; j++){
 			if(iteracao1 != 0){
 				*quadras += (15 *( j -1)); 
