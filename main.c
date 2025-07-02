@@ -40,25 +40,21 @@ int main(){
 	    printf("Valor invalido, voce pode escolher, 0, 2 ,4 ou 8 surpresinhas\n");
 	}
 	surpresinhas_sorteadas = (int**)malloc(quantidade_de_surpresinhas * sizeof(int*));
+	
 	for(int c = 0; c < quantidade_de_surpresinhas; c++){
 		surpresinhas_sorteadas[c] = (int*)malloc(quantidade_de_dezenas_por_aposta * sizeof(int));
 	}
 	gerar_matriz_pai_de_surpresinhas(quantidade_de_surpresinhas,quantidade_de_dezenas_por_aposta,surpresinhas_sorteadas);
-    if(teimosinhas == 0){
-        teimosinhas =1;
-        
-    };
+    
     
     valor_aposta = teimosinhas * (valor_dezena[quantidade_de_dezenas_por_aposta - 6] * (quantidade_de_apostas_manuais + quantidade_de_surpresinhas));
     
-    printf("A sua aposta requer um deposito de: %.2f\n Boa sorte! ",valor_aposta);
+    printf("\nA sua aposta requer um deposito de: %.2f\nBoa sorte!\n",valor_aposta);
     
 //MUDANÇAS
 
     int* valor_sorteado = (int*)malloc(6 * sizeof(int) );
-    gerar_dezena_sorteada(valor_sorteado);
-    
-    
+
     //Loop para definir acertos
     int indice_surpresinha = 0;
     int indice_manual = 0;
@@ -73,48 +69,67 @@ int main(){
     int iteracao_5_acertos_quina = (quantidade_de_dezenas_por_aposta - 5);
     int iteracao_6_acertos_quadra = (quantidade_de_dezenas_por_aposta - 6);
     int iteracao_6_acertos_quina = (quantidade_de_dezenas_por_aposta - 6);
-
-        //int acertos_manual = 6; <---- use aqui e comente o acertos_manual debaixo para testar <-------------------------------------------
+    
+    if(teimosinhas == 0){
+        teimosinhas = 1;
+        
+    };
+        for(int i = 0; i < teimosinhas; i++){
+            int indice_surpresinha = 0;
+            int indice_manual = 0;
+            gerar_dezena_sorteada(valor_sorteado);
+            //int acertos_manual = 6; 
+            printf("\nConcurso %d\nDezenas Sorteadas: ",i + 1);
+            for(int j = 0; j < 6; j++){
+                printf("%d ",valor_sorteado[j]);
+            }
+            //<---- use aqui e comente o acertos_manual debaixo para testar <-------------------------------------------
+            do{
+            int acertos_manual = comparar(valor_sorteado, dezenas_escolhidas[indice_manual], quantidade_de_dezenas_por_aposta);
+    
+            printf("\nAcertos de aposta manual numero %d: %d\n", indice_manual + 1, acertos_manual);
+    
+            if(acertos_manual == 4){
+                ocorrencias(acertos_manual, iteracao_4_acertos,0, &quadras, &quinas, &senas);
+                // printf("\nSeu numero de quadras foi: %d\n", quadras); //ok
+            }else if(acertos_manual == 5){
+                ocorrencias(acertos_manual, iteracao_5_acertos_quadra, iteracao_5_acertos_quina, &quadras, &quinas, &senas);
+                // printf("\nSeu numero de quadras foi: %d\n", quadras); //ok
+                // printf("\nSeu numero de quinas foi: %d\n", quinas); //ok
+    
+            } else if(acertos_manual == 6){
+                ocorrencias(acertos_manual, iteracao_6_acertos_quadra, iteracao_6_acertos_quina, &quadras, &quinas, &senas);
+                // printf("\nSeu numero de quadras foi: %d\n", quadras); //ok
+                // printf("\nSeu numero de quinas foi: %d\n", quinas);  //ok
+                // printf("\nSeu numero de senas foi: %d\n", senas); //sempre 1
+            }
+    
+            indice_manual++;
+        } while(indice_manual < quantidade_de_apostas_manuais);
+    
+        indice_surpresinha = 0;
         do{
-        int acertos_manual = comparar(valor_sorteado, dezenas_escolhidas[indice_manual], quantidade_de_dezenas_por_aposta);
-
-        printf("\nAcertos de aposta manual numero %d: %d\n", indice_manual + 1, acertos_manual);
-
-        if(acertos_manual == 4){
-            ocorrencias(acertos_manual, iteracao_4_acertos,0, &quadras, &quinas, &senas);
-            printf("\nSeu numero de quadras foi: %d\n", quadras); //ok
-        }else if(acertos_manual == 5){
-            ocorrencias(acertos_manual, iteracao_5_acertos_quadra, iteracao_5_acertos_quina, &quadras, &quinas, &senas);
-            printf("\nSeu numero de quadras foi: %d\n", quadras); //ok
-            printf("\nSeu numero de quinas foi: %d\n", quinas); //ok
-
-        } else if(acertos_manual == 6){
-            ocorrencias(acertos_manual, iteracao_6_acertos_quadra, iteracao_6_acertos_quina, &quadras, &quinas, &senas);
-            printf("\nSeu numero de quadras foi: %d\n", quadras); //ok
-            printf("\nSeu numero de quinas foi: %d\n", quinas);  //ok
-            printf("\nSeu numero de senas foi: %d\n", senas); //sempre 1
-        }
-
-        indice_manual++;
-    } while(indice_manual < quantidade_de_apostas_manuais);
-
-    printf("\nfim\n");
-
-    do{
-        int acertos = comparar(valor_sorteado, surpresinhas_sorteadas[indice_surpresinha], quantidade_de_dezenas_por_aposta);
-        printf("\nAcertos de surpresinha numero %d: %d\n", indice_surpresinha + 1, acertos);
-
-        if(acertos == 4){
-            ocorrencias(acertos, iteracao_4_acertos,0, &quadras, &quinas, &senas);
-        }else if(acertos == 5){
-            ocorrencias(acertos, iteracao_5_acertos_quadra, iteracao_5_acertos_quina, &quadras, &quinas, &senas);
-        } else if(acertos == 6){
-            ocorrencias(acertos, iteracao_6_acertos_quadra, iteracao_6_acertos_quina, &quadras, &quinas, &senas);
-        }
-        indice_surpresinha++;
-    } while(indice_surpresinha < quantidade_de_surpresinhas);
-
-
+            int acertos = comparar(valor_sorteado, surpresinhas_sorteadas[indice_surpresinha], quantidade_de_dezenas_por_aposta);
+            // int acertos = 6;
+            printf("\nAcertos de surpresinha numero %d: %d\n", indice_surpresinha + 1, acertos);
+            
+            if(acertos == 4){
+                ocorrencias(acertos, iteracao_4_acertos,0, &quadras, &quinas, &senas);
+            }else if(acertos == 5){
+                ocorrencias(acertos, iteracao_5_acertos_quadra, iteracao_5_acertos_quina, &quadras, &quinas, &senas);
+            } else if(acertos == 6){
+                ocorrencias(acertos, iteracao_6_acertos_quadra, iteracao_6_acertos_quina, &quadras, &quinas, &senas);
+    
+                
+            }
+            indice_surpresinha++;
+        } while(indice_surpresinha < quantidade_de_surpresinhas);
+    }
+    printf("\nSeu numero de quadras foi: %d\n", quadras); //ok
+    printf("\nSeu numero de quinas foi: %d\n", quinas);  //ok
+    printf("\nSeu numero de senas foi: %d\n", senas); //sempre 1
+    float valor_premio = (118265926.76 * senas)+(32797.02 * quinas)+(834.93 * quadras);
+    printf("\nSeu premio foi de: %.2f", (118265926.76 * senas));
 
 
     return 0;
